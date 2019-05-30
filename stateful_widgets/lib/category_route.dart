@@ -57,7 +57,7 @@ class _CategoryRouteState extends State<CategoryRoute> {
       itemCount: categories.length,
     );
   }
-
+  
   List<Unit> _retrieveUnitList(String categoryName) {
     return List.generate(10, (int i) {
       i += 1;
