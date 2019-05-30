@@ -14,6 +14,8 @@ class CategoryRoute extends StatefulWidget {
 }
 
 class _CategoryRouteState extends State<CategoryRoute> {
+  final categories = <Category>[];
+
   static const _categoryNames = <String>[
     'Length',
     'Area',
@@ -36,9 +38,19 @@ class _CategoryRouteState extends State<CategoryRoute> {
     Colors.red,
   ];
 
-  /// Makes the correct number of rows for the list view.
-  ///
-  /// For portrait, we use a [ListView].
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < _categoryNames.length; i++) {
+      categories.add(Category(
+        name: _categoryNames[i],
+        color: _baseColors[i],
+        iconLocation: Icons.cake,
+        units: _retrieveUnitList(_categoryNames[i]),
+      ));
+    }
+  }
+
   Widget _buildCategoryWidgets(List<Widget> categories) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) => categories[index],
@@ -46,7 +58,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
     );
   }
 
-  /// Returns a list of mock [Unit]s.
   List<Unit> _retrieveUnitList(String categoryName) {
     return List.generate(10, (int i) {
       i += 1;
@@ -59,22 +70,6 @@ class _CategoryRouteState extends State<CategoryRoute> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Instead of re-creating a list of Categories in every build(),
-    // save this as a variable inside the State object and create
-    // the list at initialization (in initState()).
-    // This way, you also don't have to pass in the list of categories to
-    // _buildCategoryWidgets()
-    final categories = <Category>[];
-
-    for (var i = 0; i < _categoryNames.length; i++) {
-      categories.add(Category(
-        name: _categoryNames[i],
-        color: _baseColors[i],
-        iconLocation: Icons.cake,
-        units: _retrieveUnitList(_categoryNames[i]),
-      ));
-    }
-
     final listView = Container(
       color: _backgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
